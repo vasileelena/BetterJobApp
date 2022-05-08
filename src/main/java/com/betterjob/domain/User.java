@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,14 +23,12 @@ public class User implements Serializable {
     private Long id;
 
     @Column(nullable = false, updatable = false, unique = true)
-    private String username;
-
-    @Column(nullable = false, unique = true)
     private String email;
 
     private String firstName;
     private String lastName;
     private String description;
+
     private Date birthDate;
     private String cvUrl;
 
