@@ -1,23 +1,29 @@
 package com.betterjob.service;
 
 import com.betterjob.domain.User;
+import com.betterjob.domain.UserLoginPayload;
 import com.betterjob.exception.UserNotFoundException;
-import com.betterjob.repository.UserRepository;
+import com.betterjob.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(IUserRepository userRepository) {
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     public User addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -30,11 +36,21 @@ public class UserService {
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User with the email " + email + "does not exist."));
+        return userRepository.findUserByEmail(email);
     }
 
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User verifyLogin(UserLoginPayload payload){
+        User user = userRepository.findUserByEmail(payload.getEmail());
+
+        /* Check if password provided in the login form is equal to the encrypted password from the db */
+        if (passwordEncoder.matches(payload.getPassword(), user.getPassword())) {
+            return user;
+        }
+        else
+            throw new UserNotFoundException("The user doesn't exist!");
     }
 }

@@ -1,10 +1,10 @@
 package com.betterjob.domain;
 
+import com.betterjob.domain.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,11 +25,15 @@ public class User implements Serializable {
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
+    private String password;
     private String firstName;
     private String lastName;
-    private String description;
-
+    private RoleEnum role;
+    // for recruiters
+    private String company;
+    // for users
     private Date birthDate;
+    private String description;
     private String cvUrl;
 
 }

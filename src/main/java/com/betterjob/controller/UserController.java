@@ -21,13 +21,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAllUsers();
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
         User user = userService.findUserByEmail(email);
@@ -35,11 +28,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        User newUser = userService.addUser(user);
 
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    @PutMapping("/add")
+    public ResponseEntity<User> add(@RequestBody User user) {
+        User updatedUser = userService.addUser(user);
+        System.out.println(user);
+
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @PutMapping("/update")
