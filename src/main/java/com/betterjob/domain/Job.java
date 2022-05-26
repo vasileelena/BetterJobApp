@@ -1,9 +1,6 @@
 package com.betterjob.domain;
 
-import com.betterjob.domain.enums.ExperienceEnum;
-import com.betterjob.domain.enums.IndustryEnum;
-import com.betterjob.domain.enums.LocationEnum;
-import com.betterjob.domain.enums.ProgramEnum;
+import com.betterjob.domain.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +32,7 @@ public class Job implements Serializable {
     private ProgramEnum program;
     private int salaryLowerRange;
     private int salaryUpperRange;
+    private CurrencyEnum currency;
     private LocationEnum location;
     private String description;
 }

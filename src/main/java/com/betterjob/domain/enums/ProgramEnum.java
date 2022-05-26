@@ -1,8 +1,8 @@
 package com.betterjob.domain.enums;
 
 public enum ProgramEnum {
-    partTime,
-    fullTime,
+    part_time,
+    full_time,
     project,
     internship
 }

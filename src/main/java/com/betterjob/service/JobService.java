@@ -24,6 +24,8 @@ public class JobService {
         return jobRepository.findJobByUserId(userId);
     }
 
+    public Job findJobById(Long jobId) { return jobRepository.findJobById(jobId); }
+
     public void deleteJob(Long jobId) {
         jobRepository.deleteById(jobId);
     }
