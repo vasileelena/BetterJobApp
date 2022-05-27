@@ -1,6 +1,10 @@
 package com.betterjob.controller;
 
-import com.betterjob.domain.User;
+import com.betterjob.model.Job;
+import com.betterjob.model.User;
+import com.betterjob.model.UserJob;
+import com.betterjob.model.payloads.ApplyOrSaveJobForUserPayload;
+import com.betterjob.service.JobService;
 import com.betterjob.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +19,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final JobService jobService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JobService jobService) {
         this.userService = userService;
+        this.jobService = jobService;
     }
 
     @GetMapping("/email/{email}")
@@ -29,10 +35,9 @@ public class UserController {
     }
 
 
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user) {
         User updatedUser = userService.addUser(user);
-        System.out.println(user);
 
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
@@ -49,5 +54,23 @@ public class UserController {
         userService.deleteUserById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/job/all")
+    public ResponseEntity<List<Job>> getAllJobs() {
+        List<Job> jobs = jobService.getAllJobs();
+
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
+    @PostMapping("/job/addJobToUser")
+    public ResponseEntity<UserJob> addJobToUser(@RequestBody ApplyOrSaveJobForUserPayload payload) {
+        if (payload.isApply()) {
+            UserJob userJob = userService.applyToJobForUser(payload.getUserId(), payload.getJobId());
+            return new ResponseEntity<>(userJob, HttpStatus.OK);
+        }
+
+        UserJob userJob = userService.saveJobForUser(payload.getUserId(), payload.getJobId());
+        return new ResponseEntity<>(userJob, HttpStatus.OK);
     }
 }

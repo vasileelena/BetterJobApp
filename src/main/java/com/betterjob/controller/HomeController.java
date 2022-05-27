@@ -1,7 +1,7 @@
 package com.betterjob.controller;
 
-import com.betterjob.domain.User;
-import com.betterjob.domain.UserLoginPayload;
+import com.betterjob.model.User;
+import com.betterjob.model.payloads.UserLoginPayload;
 import com.betterjob.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.betterjob.domain.enums;
+package com.betterjob.model.enums;
 
 public enum CurrencyEnum {
     RON,

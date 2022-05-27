@@ -1,6 +1,6 @@
 package com.betterjob.controller;
 
-import com.betterjob.domain.Job;
+import com.betterjob.model.Job;
 import com.betterjob.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,9 @@ public class JobController {
         this.jobService = jobService;
     }
 
-    @GetMapping("/userId/{userId}")
-    public ResponseEntity<List<Job>> getJobsByUserId(@PathVariable("userId") Long userId) {
-        List<Job> jobs = jobService.findAllJobsByUserId(userId);
+    @GetMapping("/recruiterId/{recruiterId}")
+    public ResponseEntity<List<Job>> getJobsByRecruiterId(@PathVariable("recruiterId") Long recruiterId) {
+        List<Job> jobs = jobService.findAllJobsByRecruiterId(recruiterId);
 
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
@@ -41,4 +41,5 @@ public class JobController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

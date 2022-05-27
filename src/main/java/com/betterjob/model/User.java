@@ -1,6 +1,6 @@
-package com.betterjob.domain;
+package com.betterjob.model;
 
-import com.betterjob.domain.enums.RoleEnum;
+import com.betterjob.model.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

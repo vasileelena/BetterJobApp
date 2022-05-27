@@ -1,8 +1,10 @@
 package com.betterjob.service;
 
-import com.betterjob.domain.User;
-import com.betterjob.domain.UserLoginPayload;
+import com.betterjob.model.User;
+import com.betterjob.model.UserJob;
+import com.betterjob.model.payloads.UserLoginPayload;
 import com.betterjob.exception.UserNotFoundException;
+import com.betterjob.repository.IUserJobRepository;
 import com.betterjob.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,10 +17,12 @@ import java.util.List;
 public class UserService {
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final IUserJobRepository userJobRepository;
 
     @Autowired
-    public UserService(IUserRepository userRepository) {
+    public UserService(IUserRepository userRepository, IUserJobRepository userJobRepository) {
         this.userRepository = userRepository;
+        this.userJobRepository = userJobRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -52,5 +56,47 @@ public class UserService {
         }
         else
             throw new UserNotFoundException("The user doesn't exist!");
+    }
+
+    /* Method used to apply to a job listing */
+    public UserJob applyToJobForUser(Long userId, Long jobId) {
+        try {
+            UserJob userJob = this.userJobRepository.findByJobIdAndUserId(jobId, userId);
+            userJob.setApplied(true);
+
+            return userJobRepository.save(userJob);
+        } catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+
+        UserJob userJob = new UserJob();
+
+        userJob.setUserId(userId);
+        userJob.setJobId(jobId);
+        userJob.setSaved(false);
+        userJob.setApplied(true);
+
+        return userJobRepository.save(userJob);
+    }
+
+    /* Method used to save a job listing */
+    public UserJob saveJobForUser(Long userId, Long jobId) {
+        try {
+            UserJob userJob = this.userJobRepository.findByJobIdAndUserId(jobId, userId);
+            userJob.setSaved(true);
+
+            return userJobRepository.save(userJob);
+        } catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+
+        UserJob userJob = new UserJob();
+
+        userJob.setUserId(userId);
+        userJob.setJobId(jobId);
+        userJob.setSaved(true);
+        userJob.setApplied(false);
+
+        return userJobRepository.save(userJob);
     }
 }

@@ -1,6 +1,6 @@
 package com.betterjob.config;
 
-import com.betterjob.domain.User;
+import com.betterjob.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

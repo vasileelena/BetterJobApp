@@ -1,6 +1,6 @@
 package com.betterjob.service;
 
-import com.betterjob.domain.Job;
+import com.betterjob.model.Job;
 import com.betterjob.repository.IJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,13 @@ public class JobService {
         return jobRepository.save(job);
     }
 
-    public List<Job> findAllJobsByUserId(Long userId) {
-        return jobRepository.findJobByUserId(userId);
+    public List<Job> findAllJobsByRecruiterId(Long recruiterId) {
+        return jobRepository.findJobByRecruiterId(recruiterId);
     }
 
     public Job findJobById(Long jobId) { return jobRepository.findJobById(jobId); }
+
+    public List<Job> getAllJobs() { return jobRepository.findAll(); }
 
     public void deleteJob(Long jobId) {
         jobRepository.deleteById(jobId);

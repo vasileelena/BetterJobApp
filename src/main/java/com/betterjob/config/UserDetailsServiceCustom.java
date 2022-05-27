@@ -1,10 +1,9 @@
 package com.betterjob.config;
 
-import com.betterjob.domain.User;
+import com.betterjob.model.User;
 import com.betterjob.exception.UserNotFoundException;
 import com.betterjob.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

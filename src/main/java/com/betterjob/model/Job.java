@@ -1,6 +1,6 @@
-package com.betterjob.domain;
+package com.betterjob.model;
 
-import com.betterjob.domain.enums.*;
+import com.betterjob.model.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class Job implements Serializable {
     private Long id;
 
     @Column(nullable = false, updatable = false)
-    private Long userId;
+    private Long recruiterId;
 
     private String jobTitle;
     private IndustryEnum industry;

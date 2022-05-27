@@ -1,4 +1,4 @@
-package com.betterjob.domain;
+package com.betterjob.model.payloads;
 
 import lombok.Getter;
 
