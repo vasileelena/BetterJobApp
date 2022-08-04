@@ -34,6 +34,4 @@ public class User implements Serializable {
     // for users
     private Date birthDate;
     private String description;
-    private String cvUrl;
-
 }

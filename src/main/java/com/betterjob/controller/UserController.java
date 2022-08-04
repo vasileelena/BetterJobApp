@@ -10,13 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    private final Path cvsPath = Paths.get("src/main/resources/images/CVs");
 
     private final UserService userService;
     private final JobService jobService;
@@ -42,12 +50,12 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<User> update(@RequestBody User user) {
-        User updatedUser = userService.updateUser(user);
-
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-    }
+//    @PutMapping("/update")
+//    public ResponseEntity<?> update(@RequestBody User user) {
+//        userService.updateUser(user);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @DeleteMapping("/id/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable("id") Long id) {
@@ -72,5 +80,37 @@ public class UserController {
 
         UserJob userJob = userService.saveJobForUser(payload.getUserId(), payload.getJobId());
         return new ResponseEntity<>(userJob, HttpStatus.OK);
+    }
+
+    @GetMapping("/jobs/saved/{userId}")
+    public ResponseEntity<List<Job>> getSavedJobs(@PathVariable("userId") Long userId) {
+        List<Job> savedJobs = this.userService.getSavedJobs(userId);
+
+        return new ResponseEntity<>(savedJobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/jobs/applied/{userId}")
+    public ResponseEntity<List<Job>> getAppliedJobs(@PathVariable("userId") Long userId) {
+        List<Job> savedJobs = this.userService.getAppliedJobs(userId);
+
+        return new ResponseEntity<>(savedJobs, HttpStatus.OK);
+    }
+
+    @PostMapping("/cv/{userId}")
+    public ResponseEntity<String> uploadCv(@RequestBody MultipartFile file, @PathVariable("userId") Long userId) throws IOException {
+        String message;
+        try {
+            try {
+                Files.copy(file.getInputStream(), this.cvsPath.resolve(file.getOriginalFilename() + ".pdf"),
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to upload file. Error: " + e.getMessage());
+            }
+            message = "Successfully uploaded file " + file.getName() + "!";
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch (Exception e) {
+            message = "Failed to upload file " + file.getName() + "! Error: " + e.getMessage();
+            return new ResponseEntity<>(message, HttpStatus.EXPECTATION_FAILED);
+        }
     }
 }

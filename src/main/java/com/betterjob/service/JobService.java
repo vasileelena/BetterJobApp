@@ -1,10 +1,14 @@
 package com.betterjob.service;
 
 import com.betterjob.model.Job;
+import com.betterjob.model.User;
+import com.betterjob.model.UserJob;
 import com.betterjob.repository.IJobRepository;
+import com.betterjob.repository.IUserJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
