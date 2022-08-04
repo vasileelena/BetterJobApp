@@ -19,8 +19,7 @@ public interface IUserRepository extends JpaRepository<User, Long>, IUserReposit
             "u.lastName = ?2, " +
             "u.description = ?3, " +
             "u.birthDate = ?4, " +
-            "u.company = ?5, " +
-            "u.cv = ?6 where u.id = ?7")
+            "u.company = ?5 " )
     void updateUser(String firstName,
                          String lastName,
                          String description,
