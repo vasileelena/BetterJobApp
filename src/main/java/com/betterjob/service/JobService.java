@@ -32,6 +32,10 @@ public class JobService {
 
     public List<Job> getAllJobs() { return jobRepository.findAll(); }
 
+    public Job getJobById(Long jobId) {
+        return jobRepository.findJobById(jobId);
+    }
+
     public void deleteJob(Long jobId) {
         jobRepository.deleteById(jobId);
     }

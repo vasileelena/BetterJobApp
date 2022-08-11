@@ -71,6 +71,13 @@ public class UserController {
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
+    @GetMapping("/job/{jobId}")
+    public ResponseEntity<Job> getJobById(@PathVariable("jobId") Long jobId) {
+        Job job = jobService.getJobById(jobId);
+
+        return new ResponseEntity<>(job, HttpStatus.OK);
+    }
+
     @PostMapping("/job/addJobToUser")
     public ResponseEntity<UserJob> addJobToUser(@RequestBody ApplyOrSaveJobForUserPayload payload) {
         if (payload.isApply()) {
@@ -113,4 +120,5 @@ public class UserController {
             return new ResponseEntity<>(message, HttpStatus.EXPECTATION_FAILED);
         }
     }
+
 }
