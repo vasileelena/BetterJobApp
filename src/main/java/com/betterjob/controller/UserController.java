@@ -42,6 +42,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        User user = userService.findUserById(id);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user) {
@@ -50,12 +57,12 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-//    @PutMapping("/update")
-//    public ResponseEntity<?> update(@RequestBody User user) {
-//        userService.updateUser(user);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping("/update")
+    public ResponseEntity<User> update(@RequestBody User user) {
+        User updatedUser = userService.updateUser(user);
+
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
 
     @DeleteMapping("/id/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable("id") Long id) {

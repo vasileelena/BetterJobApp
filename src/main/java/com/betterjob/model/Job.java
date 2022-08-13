@@ -36,5 +36,8 @@ public class Job implements Serializable {
     private CurrencyEnum currency;
     private LocationEnum location;
     private String description;
+    private String requirements;
+    private String responsibilities;
+    private String benefits;
     private Date creationDate;
 }

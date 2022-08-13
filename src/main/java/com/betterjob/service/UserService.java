@@ -46,31 +46,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-//    @Transactional
-//    public void updateUser(User user) {
-//        String firstName = user.getFirstName();
-//        String lastName = user.getLastName();
-//        String description = user.getDescription();
-//        Date birthDate = user.getBirthDate();
-//        String company = user.getCompany();
-//        File cv = user.getCv();
-//        Long id = user.getId();
-//        userRepository.updateUser(
-//                firstName,
-//                lastName,
-//                description,
-//                birthDate,
-//                company,
-//                cv,
-//                id
-//        );
-//    }
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
 
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
 
-    public User findUserById(Long id) { return userRepository.getById(id); }
+    public User findUserById(Long id) { return userRepository.findUserById(id); }
 
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
