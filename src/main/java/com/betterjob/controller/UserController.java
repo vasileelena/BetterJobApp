@@ -85,15 +85,24 @@ public class UserController {
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
 
+    /**
+     * Add a relation between a user and a job (saved/applied)
+     * @param payload the payload containing the userId, jobId and the save/applied flag
+     * @return the list of jobs updated with the modification
+     */
     @PostMapping("/job/addJobToUser")
-    public ResponseEntity<UserJob> addJobToUser(@RequestBody ApplyOrSaveJobForUserPayload payload) {
+    public ResponseEntity<List<Job>> addJobToUser(@RequestBody ApplyOrSaveJobForUserPayload payload) {
         if (payload.isApply()) {
             UserJob userJob = userService.applyToJobForUser(payload.getUserId(), payload.getJobId());
-            return new ResponseEntity<>(userJob, HttpStatus.OK);
+            List<Job> appliedJobs = this.userService.getAppliedJobs(payload.getUserId());
+
+            return new ResponseEntity<>(appliedJobs, HttpStatus.OK);
         }
 
         UserJob userJob = userService.saveJobForUser(payload.getUserId(), payload.getJobId());
-        return new ResponseEntity<>(userJob, HttpStatus.OK);
+        List<Job> savedJobs = this.userService.getSavedJobs(payload.getUserId());
+
+        return new ResponseEntity<>(savedJobs, HttpStatus.OK);
     }
 
     @GetMapping("/jobs/saved/{userId}")
@@ -105,9 +114,23 @@ public class UserController {
 
     @GetMapping("/jobs/applied/{userId}")
     public ResponseEntity<List<Job>> getAppliedJobs(@PathVariable("userId") Long userId) {
-        List<Job> savedJobs = this.userService.getAppliedJobs(userId);
+        List<Job> appliedJobs = this.userService.getAppliedJobs(userId);
 
-        return new ResponseEntity<>(savedJobs, HttpStatus.OK);
+        return new ResponseEntity<>(appliedJobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/job/applied/userId/{userId}/jobId/{jobId}")
+    public ResponseEntity<Boolean> checkIfUserAppliedToJob(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId) {
+        Boolean appliedToJob = this.userService.checkIfUserAppliedToJob(jobId, userId);
+
+        return new ResponseEntity<>(appliedToJob, HttpStatus.OK);
+    }
+
+    @GetMapping("/job/saved/userId/{userId}/jobId/{jobId}")
+    public ResponseEntity<Boolean> checkIfUserSavedJob(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId) {
+        Boolean appliedToJob = this.userService.checkIfUserSavedJob(jobId, userId);
+
+        return new ResponseEntity<>(appliedToJob, HttpStatus.OK);
     }
 
     @PostMapping("/cv/{userId}")

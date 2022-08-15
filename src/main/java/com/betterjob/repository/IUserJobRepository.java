@@ -10,4 +10,6 @@ public interface IUserJobRepository extends JpaRepository<UserJob, Long> {
     List<UserJob> findByAppliedAndUserId(boolean applied, Long userId);
     List<UserJob> findBySavedAndUserId(boolean saved, Long userId);
     List<UserJob> findByAppliedAndJobId(boolean applied, Long jobId);
+    UserJob findByJobIdAndUserIdAndApplied(Long jobId, Long userId, boolean applied);
+    UserJob findByJobIdAndUserIdAndSaved(Long jobId, Long userId, boolean saved);
 }

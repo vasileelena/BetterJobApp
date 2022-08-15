@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -135,6 +136,28 @@ public class UserService {
         }
 
         return appliedJobs;
+    }
+
+    /**
+     * Check if a user applied to a specified job
+     * @param jobId the job id
+     * @param userId the user id
+     * @return true if the user applied to the job, false otherwise
+     */
+    public boolean checkIfUserAppliedToJob(Long jobId, Long userId) {
+        Optional<UserJob> userJob = Optional.ofNullable(this.userJobRepository.findByJobIdAndUserIdAndApplied(jobId, userId, true));
+        return userJob.isPresent();
+    }
+
+    /**
+     * Check if a user saved a specified job
+     * @param jobId the job id
+     * @param userId the user id
+     * @return true if the user saved the job, false otherwise
+     */
+    public boolean checkIfUserSavedJob(Long jobId, Long userId) {
+        Optional<UserJob> userJob = Optional.ofNullable(this.userJobRepository.findByJobIdAndUserIdAndSaved(jobId, userId, true));
+        return userJob.isPresent();
     }
 
 

@@ -35,9 +35,13 @@ public class Job implements Serializable {
     private int salaryUpperRange;
     private CurrencyEnum currency;
     private LocationEnum location;
+    @Column(columnDefinition="TEXT")
     private String description;
+    @Lob
     private String requirements;
+    @Lob
     private String responsibilities;
+    @Lob
     private String benefits;
     private Date creationDate;
 }
