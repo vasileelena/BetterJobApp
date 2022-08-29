@@ -82,4 +82,11 @@ public class RecruiterController {
         }
     }
 
+    @DeleteMapping("/delete/{jobId}/{recruiterId}")
+    public ResponseEntity<List<Job>> closeJobOpening(@PathVariable("jobId") Long jobId, @PathVariable("recruiterId") Long recruiterId) {
+        jobService.deleteJob(jobId);
+        List<Job> updatedJobs = jobService.findAllJobsByRecruiterId(recruiterId);
+        return new ResponseEntity<>(updatedJobs, HttpStatus.OK);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.betterjob.controller;
 
+import com.betterjob.exception.UserNotFoundException;
 import com.betterjob.model.User;
 import com.betterjob.model.payloads.UserLoginPayload;
 import com.betterjob.service.UserService;
@@ -28,8 +29,10 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody UserLoginPayload payload){
-        return userService.verifyLogin(payload);
+    public ResponseEntity<?> login(@RequestBody UserLoginPayload payload) throws UserNotFoundException {
+        User user = userService.verifyLogin(payload);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }

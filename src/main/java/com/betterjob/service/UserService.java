@@ -24,10 +24,13 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     private final PasswordEncoder passwordEncoder;
 
     private final IUserRepository userRepository;
+
     private final IUserJobRepository userJobRepository;
+
     private final IJobRepository jobRepository;
 
     @Autowired
@@ -61,15 +64,16 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User verifyLogin(UserLoginPayload payload){
+    public User verifyLogin(UserLoginPayload payload) throws UserNotFoundException{
         User user = userRepository.findUserByEmail(payload.getEmail());
 
         /* Check if password provided in the login form is equal to the encrypted password from the db */
         if (passwordEncoder.matches(payload.getPassword(), user.getPassword())) {
             return user;
         }
-        else
-            throw new UserNotFoundException("The user doesn't exist!");
+        else {
+            throw new UserNotFoundException("The user doesn't exist or the credentials are wrong!");
+        }
     }
 
     /* Method used to apply to a job listing */

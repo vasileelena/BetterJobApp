@@ -1,23 +1,24 @@
 package com.betterjob.service;
 
 import com.betterjob.model.Job;
-import com.betterjob.model.User;
-import com.betterjob.model.UserJob;
 import com.betterjob.repository.IJobRepository;
 import com.betterjob.repository.IUserJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class JobService {
     private final IJobRepository jobRepository;
 
+    private final IUserJobRepository userJobRepository;
+
     @Autowired
-    public JobService(IJobRepository jobRepository) {
+    public JobService(IJobRepository jobRepository, IUserJobRepository userJobRepository) {
         this.jobRepository = jobRepository;
+        this.userJobRepository = userJobRepository;
     }
 
     public Job addJob(Job job) {
@@ -36,7 +37,9 @@ public class JobService {
         return jobRepository.findJobById(jobId);
     }
 
+    @Transactional
     public void deleteJob(Long jobId) {
-        jobRepository.deleteById(jobId);
+        jobRepository.deleteJobById(jobId);
+        userJobRepository.deleteAllByJobId(jobId);
     }
 }

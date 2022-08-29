@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface IJobRepository extends JpaRepository<Job, Long>, IJobRepositoryCustom {
     List<Job> findJobByRecruiterId(Long recruiterId);
+
     Job findJobById(Long jobId);
+
+    void deleteJobById(Long jobId);
 
 }

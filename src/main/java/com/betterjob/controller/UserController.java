@@ -51,14 +51,14 @@ public class UserController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<User> add(@RequestBody User user) {
-        User updatedUser = userService.addUser(user);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        User createdUser = userService.addUser(user);
 
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        return new ResponseEntity<>(createdUser, HttpStatus.OK);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> update(@RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
         User updatedUser = userService.updateUser(user);
 
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
@@ -133,8 +133,8 @@ public class UserController {
         return new ResponseEntity<>(appliedToJob, HttpStatus.OK);
     }
 
-    @PostMapping("/cv/{userId}")
-    public ResponseEntity<String> uploadCv(@RequestBody MultipartFile file, @PathVariable("userId") Long userId) throws IOException {
+    @PostMapping("/cv")
+    public ResponseEntity<String> uploadCv(@RequestBody MultipartFile file) {
         String message;
         try {
             try {
