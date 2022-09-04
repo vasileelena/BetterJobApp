@@ -134,8 +134,7 @@ public class UserController {
     }
 
     @PostMapping("/cv")
-    public ResponseEntity<String> uploadCv(@RequestBody MultipartFile file) {
-        String message;
+    public ResponseEntity<?> uploadCv(@RequestBody MultipartFile file) {
         try {
             try {
                 Files.copy(file.getInputStream(), this.cvsPath.resolve(file.getOriginalFilename() + ".pdf"),
@@ -143,11 +142,9 @@ public class UserController {
             } catch (Exception e) {
                 throw new RuntimeException("Failed to upload file. Error: " + e.getMessage());
             }
-            message = "Successfully uploaded file " + file.getName() + "!";
-            return new ResponseEntity<>(message, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            message = "Failed to upload file " + file.getName() + "! Error: " + e.getMessage();
-            return new ResponseEntity<>(message, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 

@@ -36,4 +36,5 @@ public class User implements Serializable {
     private String description;
     private String location;
     private String skills;
+    private boolean uploadedCV;
 }
