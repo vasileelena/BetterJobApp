@@ -25,6 +25,7 @@ import java.util.List;
 public class UserController {
 
     private final Path cvsPath = Paths.get("src/main/resources/images/CVs");
+    private final Path imagesPath = Paths.get("E:\\teme\\ANIV\\LICENTA\\better-job-web\\src\\assets\\profile-pictures");
 
     private final UserService userService;
     private final JobService jobService;
@@ -138,6 +139,21 @@ public class UserController {
         try {
             try {
                 Files.copy(file.getInputStream(), this.cvsPath.resolve(file.getOriginalFilename() + ".pdf"),
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to upload file. Error: " + e.getMessage());
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PostMapping("/profile-picture")
+    public ResponseEntity<?> uploadProfilePicture(@RequestBody MultipartFile file) {
+        try {
+            try {
+                Files.copy(file.getInputStream(), this.imagesPath.resolve(file.getOriginalFilename() + ".jpeg"),
                         StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to upload file. Error: " + e.getMessage());
